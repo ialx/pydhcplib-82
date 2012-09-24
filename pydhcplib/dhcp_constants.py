@@ -380,7 +380,7 @@ DhcpOptionsTypes = {0:"none", 1:"ipv4", 2:"ipv4", 3:"ipv4+",
                     120:"RFC3361",
 
                     #TODO
-                    121:"Unassigned", 122:"Unassigned", 123:"Unassigned", 
+                    121:"CSR", 122:"Unassigned", 123:"Unassigned", 
                     124:"Unassigned", 125:"Unassigned", 126:"Unassigned", 127:"Unassigned", 
                     128:"Unassigned", 129:"Unassigned", 130:"Unassigned", 131:"Unassigned", 
                     132:"Unassigned", 133:"Unassigned", 134:"Unassigned", 135:"Unassigned", 
@@ -411,4 +411,4 @@ DhcpOptionsTypes = {0:"none", 1:"ipv4", 2:"ipv4", 3:"ipv4+",
                     232:"Unassigned", 233:"Unassigned", 234:"Unassigned", 235:"Unassigned", 
                     236:"Unassigned", 237:"Unassigned", 238:"Unassigned", 239:"Unassigned", 
                     240:"Unassigned", 241:"Unassigned", 242:"Unassigned", 243:"Unassigned", 
-                    244:"Unassigned", 245:"Unassigned"}
+                    244:"Unassigned", 245:"Unassigned", 249:"CSR"}

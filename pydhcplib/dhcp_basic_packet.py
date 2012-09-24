@@ -101,7 +101,8 @@ class DhcpBasicPacket:
                              "string":[0,0,1], "bool":[1,0,1],
                              "char":[1,0,1], "16-bits":[2,0,1],
                              "32-bits":[4,0,1], "identifier":[0,2,1],
-                             "RFC3397":[0,4,1],"none":[0,0,1],"char+":[0,1,1]
+                             "RFC3397":[0,4,1],"none":[0,0,1],"char+":[0,1,1], 
+                             "RFC3046":[0,1,1],"CSR":[0,1,1],
                              }
             
             specs = fields_specs[DhcpOptionsTypes[DhcpOptions[name]]]
@@ -136,7 +137,17 @@ class DhcpBasicPacket:
             
         options = []
 
-        for each in sorted(order.keys()) : options += (order[each])
+        msg_type = self.GetOption("dhcp_message_type").pop()
+
+	opts_order = sorted(order.keys())
+	if msg_type in (2,5):
+	    try:
+		opts_order.remove(82)
+		opts_order.append(82)
+	    except:
+		pass
+
+	for each in opts_order : options += (order[each])
 
         packet = self.packet_data[:240] + options
         packet.append(255) # add end option
