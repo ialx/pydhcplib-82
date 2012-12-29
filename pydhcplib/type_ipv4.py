@@ -44,20 +44,21 @@ class ipv4:
 
     # Convert Long type ip to numlist ip
     def _LongToNumlist(self) :
-        self._ip_numlist = [self._ip_long >> 24 & 0xFF]
-        self._ip_numlist.append(self._ip_long >> 16 & 0xFF)
-        self._ip_numlist.append(self._ip_long >> 8 & 0xFF)
-        self._ip_numlist.append(self._ip_long & 0xFF)
+        # Convert IPv4 long integer to list
+        self._ip_numlist = [(self._ip_long >> 8 * (3 - i)) % 256 for i in xrange(4)]
         if not self.CheckNumList(self._ip_numlist) : raise ValueError, "ipv4 list argument is not an valid ip "
+
     # Convert String type ip to Long type ip
     def _StringToLong(self) :
         ip_numlist = map(int,self._ip_string.split('.'))
-        self._ip_long = ip_numlist[3] + ip_numlist[2]*256 + ip_numlist[1]*256*256 + ip_numlist[0]*256*256*256
+        self._ip_long = reduce(lambda x, y: ( x << 8 ) + y, ip_numlist, 0)
         if not self.CheckNumList(self._ip_numlist) : raise ValueError, "ipv4 list argument is not an valid ip "
+
     # Convert NumList type ip to String type ip
     def _NumlistToString(self) :
         self._ip_string = ".".join(map(str,self._ip_numlist))
         if not self.CheckNumList(self._ip_numlist) : raise ValueError, "ipv4 list argument is not an valid ip "
+
     # Convert String type ip to NumList type ip
     def _StringToNumlist(self) :
         self._ip_numlist = map(int,self._ip_string.split('.'))

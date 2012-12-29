@@ -1,0 +1,16 @@
+Source: pydhcplib
+Section: testing
+Priority: extra
+Maintainer: Alexander Ignatyev <ialx84@ya.ru>
+Build-Depends: debhelper (>= 7.0.50~), python-all (>= 2.6.6-3~)
+Standards-Version: 3.8.4
+Homepage: https://github.com/ialx/pydhcplib-82
+Vcs-Git: git://git@github.com:ialx/pydhcplib-82.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/is-dhcpd.git;a=summary
+
+Package: pydhcplib
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Dhcp client/server library
+     Modified by Alexander Ignatyev / based on pydhcplib by Mathieu Ignacio
+

@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+#DEB_PYTHON2_MODULE_PACKAGES=is-dhcpd
+DESTDIR =
+BIN = $(DESTDIR)/usr/local/sbin/is-dhcpd
+
+DEFAULT_PYTHON = `pyversions -d`
+
+#binary: binary-indep binary-arch
+#	install
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -rf build/ BitTornado/BT1/*.pyc BitTornado/*.pyc *.pyc
+	rm -rf debian/ISdhcpd
+	rm -f debian/*.1
+	rm -f build-stamp
+	dh_clean
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installexamples
+	dh_installmenu
+	dh_installmime
+	dh_installman
+	
+	# create versions with .bittornado suffix so that the alternatives
+	# system can work. the .py extensions are not installed.
+	# btmakemetafile.py and btcompletedir.py is needed for pyinstall
+	#( cd debian/tmp/usr/bin && \
+	#  for i in btdownloadgui btdownloadheadless bttrack btmakemetafile \
+	#  	   btlaunchmany btcompletedir btcompletedirgui \
+	#		   btdownloadcurses btlaunchmanycurses btreannounce btrename \
+	#	   btshowmetainfo; \
+	#  do cp $$i.py $$i.bittornado || exit 1 ; done )
+	
+	# Remove the .py from the end of each of these, the following are not
+	# included in bittorrent, so they are not renamed to having the
+	# suffix of .bittornado
+	#( cd debian/tmp/usr/bin && \
+	#  for i in btcopyannounce btsethttpseeds btmaketorrentgui; \
+	#  do mv $$i.py $$i || exit 1; done )
+
+	dh_installchangelogs 
+	dh_install --sourcedir=debian/tmp
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_python2
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+install: 
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	# Add here commands to install the package into debian/bittornado.
+	dh_auto_install -- --root=$(CURDIR)/debian/tmp
+
+	python setup.py build
+	python setup.py install --root=$(CURDIR)/debian/tmp --install-layout=deb --install-lib=pyshared
+#	install -D -m644 debian/tmp/pyshared/*.egg-info debian/pydhcplib/usr/share/pyshared/
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
